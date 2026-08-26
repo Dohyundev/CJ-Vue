@@ -2,7 +2,7 @@
 name: "create-vue-component"
 description: "Vue 컴포넌트(.vue) 파일을 빈 템플릿으로 새로 만들거나, 기존 파일을 템플릿 상태로 초기화하는 스킬. 사용자가 '컴포넌트 만들어 줘', 'App.vue 초기화해 줘', '뷰 파일 하나 생성해 줘', 'src에 새 vue 파일' 처럼 말하면 경로나 파일명을 정확히 말하지 않아도 이 스킬을 사용한다."
 model: haiku
-effort: medium
+effort: low
 ---
 
 # Vue 컴포넌트 파일 생성
