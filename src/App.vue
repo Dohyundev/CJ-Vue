@@ -19,7 +19,7 @@ const movies = ref<Movie[]>([])
 const isLoading = ref(true)
 
 async function fetchMovies() {
-  await new Promise(resolve => setTimeout(resolve, 3000))
+  // await new Promise(resolve => setTimeout(resolve, 3000))
   const response = await fetch(`https://omdbapi.com/?apikey=9d38c929&s=spider`)
   const data = await response.json()
   movies.value = data.Search
@@ -30,7 +30,6 @@ fetchMovies()
 
 <template>
   <div>
-    <!-- <h1 v-if="isLoading">로드 중...</h1> -->
      <TheLoader v-if="isLoading" />
     <ul @click="console.log(123)">
       <li v-for="movie in movies" :key="movie.imdbID">
