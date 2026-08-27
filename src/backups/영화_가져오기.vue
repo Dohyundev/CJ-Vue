@@ -16,25 +16,19 @@ export interface Movie {
 }
 
 const movies = ref<Movie[]>([])
-const isLoading = ref(false)
-const searchText = ref('')
+const isLoading = ref(true)
 
 async function fetchMovies() {
-  isLoading.value = true
   // await new Promise(resolve => setTimeout(resolve, 3000))
-  const response = await fetch(`https://omdbapi.com/?apikey=9d38c929&s=` + searchText.value)
+  const response = await fetch(`https://omdbapi.com/?apikey=9d38c929&s=spider`)
   const data = await response.json()
   movies.value = data.Search
   isLoading.value = false
 }
+fetchMovies()
 </script>
 
 <template>
-  <h1 contenteditable><span style="color: red;">Hello</span> World</h1>
-  <div>
-    <input type="text" v-model="searchText" @keydown.enter="fetchMovies">
-    <button @click="fetchMovies">검색!</button>
-  </div>
   <div>
      <TheLoader v-if="isLoading" />
     <ul @click="console.log(123)">
