@@ -2,6 +2,7 @@
 import { ref, useTemplateRef, onMounted } from 'vue'
 import TheLoader from '@/components/TheLoader.vue'
 import TheButton from '@/components/TheButton.vue'
+import { RouterLink } from 'vue-router'
 
 export interface ResponseData {
   Search: Movie[]
@@ -33,6 +34,10 @@ async function fetchMovies() {
   movies.value = data.Search
   isLoading.value = false
 }
+
+// https://localhost:5173/movies
+// https://localhost:5173/movies/tt19273122
+// https://localhost:5173/dashboard/posts/12345
 </script>
 
 <template>
@@ -44,8 +49,10 @@ async function fetchMovies() {
      <TheLoader v-if="isLoading" />
     <ul @click="console.log(123)">
       <li v-for="movie in movies" :key="movie.imdbID">
-        {{ movie.Title }} ({{ movie.Year }})
-        <img :src="movie.Poster" />
+        <RouterLink :to="'/movies/' + movie.imdbID">
+          {{ movie.Title }} ({{ movie.Year }})
+          <img :src="movie.Poster" />
+        </RouterLink>
       </li>
     </ul>
   </div>
