@@ -1,39 +1,16 @@
 <script setup lang="ts">
-import { ref, useTemplateRef, onMounted } from 'vue'
+import { useTemplateRef, onMounted } from 'vue'
 import TheLoader from '@/components/TheLoader.vue'
 import TheButton from '@/components/TheButton.vue'
 import { RouterLink } from 'vue-router'
+import { useMovieStore } from '@/stores/movie.ts'
 
-export interface ResponseData {
-  Search: Movie[]
-  totalResults: string
-  Response: string
-}
-export interface Movie {
-  Title: string
-  Year: string
-  imdbID: string
-  Type: string
-  Poster: string
-}
-
-const movies = ref<Movie[]>([])
-const isLoading = ref(false)
-const searchText = ref('')
+const movieStore = useMovieStore()
 const inputRef = useTemplateRef('abc')
 
 onMounted(function () {
   inputRef.value?.focus()
 })
-
-async function fetchMovies() {
-  isLoading.value = true
-  await new Promise(resolve => setTimeout(resolve, 2000))
-  const response = await fetch(`https://omdbapi.com/?apikey=9d38c929&s=` + searchText.value)
-  const data = await response.json()
-  movies.value = data.Search
-  isLoading.value = false
-}
 
 // https://localhost:5173/movies
 // https://localhost:5173/movies/tt19273122
@@ -42,13 +19,17 @@ async function fetchMovies() {
 
 <template>
   <div>
-    <input ref="abc" type="text" v-model="searchText" @keydown.enter="fetchMovies">
-    <TheButton :loading="isLoading" @click="fetchMovies">검색!</TheButton>
+    <input
+      ref="abc"
+      type="text"
+      v-model="movieStore.searchText"
+      @keydown.enter="movieStore.fetchMovies">
+    <TheButton :loading="movieStore.isLoading" @click="movieStore.fetchMovies">검색!</TheButton>
   </div>
   <div>
-     <TheLoader v-if="isLoading" />
+     <TheLoader v-if="movieStore.isLoading" />
     <ul @click="console.log(123)">
-      <li v-for="movie in movies" :key="movie.imdbID">
+      <li v-for="movie in movieStore.movies" :key="movie.imdbID">
         <RouterLink :to="'/movies/' + movie.imdbID">
           {{ movie.Title }} ({{ movie.Year }})
           <img :src="movie.Poster" />
