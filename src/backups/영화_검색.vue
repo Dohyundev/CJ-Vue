@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useTemplateRef, onMounted } from 'vue'
 import TheLoader from '@/components/TheLoader.vue'
 
 export interface ResponseData {
@@ -18,6 +18,11 @@ export interface Movie {
 const movies = ref<Movie[]>([])
 const isLoading = ref(false)
 const searchText = ref('')
+const inputRef = useTemplateRef('abc')
+
+onMounted(function () {
+  inputRef.value?.focus()
+})
 
 async function fetchMovies() {
   isLoading.value = true
@@ -30,9 +35,8 @@ async function fetchMovies() {
 </script>
 
 <template>
-  <h1 contenteditable><span style="color: red;">Hello</span> World</h1>
   <div>
-    <input type="text" v-model="searchText" @keydown.enter="fetchMovies">
+    <input ref="abc" type="text" v-model="searchText" @keydown.enter="fetchMovies">
     <button @click="fetchMovies">검색!</button>
   </div>
   <div>

@@ -1,5 +1,18 @@
+<script setup lang="ts">
+// 객체 구조분해 할당
+const { color = 'orange', size = 26, weight = 6 } = defineProps<{
+  color?: string
+  size?: number
+  weight?: number
+}>()
+</script>
+
 <template>
-  <div class="hloader"></div>
+  <div class="hloader" :style="{
+    '--hloader-color': color,
+    '--hloader-size': size + 'px',
+    '--hloader-weight': weight + 'px'
+  }"></div>
 </template>
 
 <style scoped>
